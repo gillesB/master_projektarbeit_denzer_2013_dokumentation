@@ -115,20 +115,63 @@ Though the design of Ocelet has the following two main points.
 \end{enumerate}
 To make the modeler’s work easier, Ocelet provides a model building environment, which enables syntax analysing and type verification, which is standard in most other common programming languages. \\
 Furthermore the model needs to be executed, so Ocelet also provides a program execution platform based on component-service technologies. \\
-A schematic overview of Ocelet can be seen in (Fig. X )
-%TODO bild einfügen
+A schematic overview of Ocelet can be seen in the diagram \ref{fig:ocelet_modelling_and_simulation_framework} below, it is taken from \autocite{dsl:ocelet-design}.
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=1.0\textwidth]{pics/ocelet/ocelet_modelling_and_simulation_framework.png}
+	\caption{A schematic overview of Ocelet \label{fig:ocelet_modelling_and_simulation_framework}}	
+\end{figure}
 
+\subsubsection{Modelling paradigm}
+\par
+As already described Ocelet is an own DSL, where the code is translated to Java, which then can be executed on the computer.\\
+Ocelet was build around of 5 main concepts:
+\begin{itemize}
+	\item entity
+	\item service
+	\item relation
+	\item scenario
+	\item datafacer
+\end{itemize}
+These concepts are further explained in more detail subsequently. Of course Ocelet also knows other common concepts like arguments, properties and numbers, which will not be explained in detail in this document.
+\par
+The following definitions of the 5 main concepts are taken from \autocite{dsl:ocelet-onto} and \autocite{dsl:ocelet-design} respectively.
+\emph{
+\paragraph{Entity}
+Entities are basic modelling parts that can be put together to build a model. A whole model is, as such, also an entity. An entity can contain other entities, and is then called a composite entity. Entities that do not contain other entities are called atomic entities. An entity is able to store information using attributes. An entity communicates with its environment through input and output ports named services.\\
+For example: A forest can be modelled by a composite entity that contains tree entities which are part of the forest. And each tree can have an age attribute.
+\paragraph{Service}
+A service is a communication port of an entity. It is an input service when it accepts input values or events from other entities and it is an output service when it exports values or events to other entities.\\
+Services are defined like functions: they have a name, accept arguments, can produce results.
+\paragraph{Relation}
+A relation is the expression of how a set of entities relate to each other at a given moment. Hence a relation definition describes which entities can be related and also contains a functional part which describes what is happening when they interact.
+\paragraph{Scenario}
+A scenario gives a description of which actions and relations within a composite entity have to be activated, and when. The relations in turn put selected entities in interaction in space and time. The scenario therefore expresses the spatial and temporal internal behaviour of a composite entity by managing the entities and relations it contains. For example, a ten-year evolution scenario embedded in a village entity could describe the extension of the village by a few houses every year, taking in account population growth and several policy rules that govern spatial expansion. The ten-year scenario could also be composed of yearly evolution scenarios.
+\paragraph{Datafacer}
+A datafacer is a component through which entities access data. The aim of datafacers is to abstract access methods to the entities. In the domain of geographical information, a datafacer can take the form of an external database, a satellite image repository or an internal logfile.
+}
+\par
+In \autocite{dsl:ocelet-design} the creators of Ocelet show that these five concepts are enough to represent most of the situations, which occur in dynamic landscape modeling. Although it is not proven if these concepts are also sufficient to represent most environmental models, which are not directly connected to the landscape.
 
+\subsubsection{Ocelet and Ontologies}
+\par
+According to \autocite{dsl:ocelet-design} an ontology can be mapped to Ocelet code and vice versa. This is shown in diagram \ref{fig:ocelet_and_ontologies}.
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.7\textwidth]{pics/ocelet/ocelet_and_ontologies.png}
+	\caption{Ocelet models and Ontologies  \label{fig:ocelet_and_ontologies}}	
+\end{figure}
+\par
+In the image it is shown that a model can be mapped to an equivalent model in an ontology. Furthermore the mapping is fully automated and therefore does not require any actions of the end-user. This has the advantage that the model can be checked for inconsistencies with a reasoner. Although the modeler can be warned about such inconsistencies, it is not possible, to automate the repair process, as it is a nondeterministic process.  
+\par
+Another advantage is that parts of one model can be easily reused in other models, as for example an entity in one model can be an equivalent, specialisation or generalization of an entity in an other model.
 
+\subsubsection{Missing features of Ocelet}
+\par
+For our use, Ocelet has two main shortcomings. In the first place, Ocelet does not follow an universal approach as it only focuses on landscape modelling. Secondly, Ocelet models can be reasoned with ontologies, but this feature is not as extensive as we need it.
 
-
-
-
-
-
-
-
-
+\par
+In the next section, we describe therefore how Ocelet could be enhanced for our needs.
 
 
 
