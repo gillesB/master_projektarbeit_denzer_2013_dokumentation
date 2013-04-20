@@ -63,7 +63,7 @@ An effort to find a way to integrate unit conversion with the help of ontologies
 \par
 The result of this example is that the code generation is out of scope for this project and that a new DSL definition is necessary, because a textual DSL has other requirements than a visual modeling like Simile. Though we went on to the second DSL draft.
 
-\subsection{Second DSL Draft}
+\subsection{Second DSL Draft} \label{sec:second_dsl_draft}
 \par
 In our second DSL draft we decided to follow the explanations in the Paper ``Declarative Modelling'' from \autocite{dsl:muetzelfeldt}. So we have chosen to define our DSL in a declarative way. That means that, in the most cases, there is no need to write instructions how to calculate some values. The goal is to describe all calculations with describe statements as a mathematical formula. These describe-statements of the calculations can be separated from the concrete model. That means the concrete model uses the formulas which was described earlier or are available in a database/ontologie.
 \par
@@ -176,7 +176,114 @@ In the next section, we describe therefore how Ocelet could be enhanced for our 
 \section{Needed enhancements of Ocelet}
 \par
 As already described Ocelet has two main shortcomings, a focus on landscape modelling and a lack of semantic. Besides of these it also has a few minor shortcomings. The created model has no metadata, the use of nested arrays and more complex data structures is not clear and there could be some improvements to handle different timesteps. Possible solutions to these problems will be described in this section, whereas the problem with the semantics will be discussed in the next section.
-%TODO diskutieren des Rests und ebenfalls einfügen
+\subsection{Metadata}
+\par
+As described in the previous chapter, annotations can be used to add metadata to a model. A list of every possible annotation can not be provided here, but has to be elaborated in a future work. To show how the use of annotations could look like, two possible annotations, @IN and @OUT, are introduced here. They specify if a variable is an input or an output parameter of a component. They can be used to define the interface of a component.
+\par
+Thus a rabbit entity from a predator-prey model could look like the following:
+\begin{lstlisting}
+entity rabbits{
+    @IN property population
+    @IN property reproduction = 0.01   
+
+    Service produce()
+}
+\end{lstlisting}
+The creation of a new rabbit entity could look like this:
+\begin{lstlisting}
+scenario Main{
+    r = rabbit(50);
+}
+\end{lstlisting}
+But the input parameter could also be nested, in such way the input parameter is forwarded over multiple components:
+\begin{lstlisting}
+scenario Main{
+    @IN parameter rabbitPopulation;
+    @OUT parameter finalRabbitPopulation;
+    r = rabbit(rabbitPopulation);
+    .
+    .
+    .
+    return finalRabbitPopulation;
+}
+\end{lstlisting}
+%TODO code rahmen wegmachen
+\par
+In this case. the scenario awaits the input parameters as user input, as it is similarly done in OMS, and then forwards the parameters to its entities. Additionally, the @OUT annotation specifies the variable which will be returned as result of the model, namely the final rabbit population.
+
+\subsection{Nested arrays}
+\par
+Ocelet has a shortcoming on more complex data structures, thus it must be enhanced in that direction.\\
+This should be solved with data structure paradigms which are known from other programming languages. Among these, arrays and two dimensional arrays are the most basic data structures and should therefore be used. Furthermore if the possibility exists to nest arrays, this can be used as foundation of other more complex data structures, as those often build up upon them. Thus the nesting of arrays is the first step, in direction of more complex data structures. 
+\par
+In the following example it is shown how satellite pictures and their metadata could be represented with grids, also known as a two dimensional array.\\
+In general a satellite picture is not a single big picture, but it is assembled from some single smaller pictures. To form the actual pictures these parts can be arranged in a grid. How this could be done with our syntax is shown below. 
+\par
+An entity $SatellitePicture$ and $SatellitePicturePart$ is given:
+\begin{lstlisting}
+entity SatellitePicture{
+    property Satellite s;
+    property SatellitePicturePart[][] parts;
+    ...
+}
+
+entity SatellitePicturePart{
+    property Coordinates l;
+    property Picture p;
+    ...
+}
+\end{lstlisting}
+\par
+The entity $SatellitePicture$ contains some metadata of the picture and the needed parts to assemble the picture. These parts are already ordered in a grid. The entity $SatellitePicturePart$ contains the actual pictures and also some metadata about the single part. For example the coordinates, which are needed to put the part on the right place in the grid.
+\par
+The grid could be allocated with: $parts = new SatellitePicturePart[n][m];$
+Where $n$ and $m$ are two integers to define the size of the grid.
+\par
+To give the modeler the possibility to create such data structures, a first implementation of our project, should contain arrays and the possibility to nest them. Though, as it is very tedious to work only with arrays and nested arrays, other data structures which are known from Java (like arraylists) and other programming languages, should be build in the subsequent implementations.
+\par
+Up to this point the arrays are only allocated but are still empty and do not contain any data. They could be either initialized by the modeller, or filled via Ocelet’s datafacers or via SQL statements. For the later, it has to be proven if it is advantageous to build this functionality into the language, or if it is better to implement the SQL queries with the help of a datafacer.
+\subsection{Access past timesteps}
+\par
+According to our knowledge, the two following features have till now not been described in a environmental modelling context. However, we think that it might be a helpful functionality.
+The idea of the first feature is, that it should be possible to access every value of every variable from every past, speak already calculated, timestep. To realise this the variables have to be enhanced in such way, that they are associative arrays, where a certain time step (so to speak the date \footnote{In this section, date has not the common definition, but is something similar to the Java class Date. This means that it specifies the time and day.} of the time step) is the key and the value is the actual value of the variable. To simplify the modeler’s work, this has to be hidden from him, so that he can easily use this additional functionality. Thus if he uses the variable in a normal way, the last saved value will be used. But he can also use the variable with the appendix $.from(Date)$, in this case the variable returns the value of that date. If this feature is considered useful in general, it has to be worked out, as some questions are still open. For example: what happens if no value is available for the stated date. In that case, should it always be an error, or should some interpolation be used.
+\par
+The second idea is that a more descriptive way of writing a for-loop should be introduced. This loop could have the following structure:\\
+$for(from\_date,\, to\_date,\, granularity)$, where $from\_date$ and $to\_date$ are two dates and the granularity is a unit to describe time (second, day, year etc...). The loop would then iterate from the $from\_date$ to the $to\_date$. Thus the first timestep would be the $from\_date$. The second time step would be the first date added up by the granularity. The third time step would be the second date added up by the granularity and so on until the $to\_date$ is reached or passed, at this point the loop will break. To access the date of the current timeStep the variable $currentTimeStep$ can be used. For the loop there are also some important  open questions: how could a nested loop be realised and what arithmetic on the $currentTimeStep$ variable should be possible? For example, if the $currentTimeStep$ is the $24.12.2006$ and the granularity is $hour$, should $currentTimeStep+1$ result in $24.12.2006 01:00 am$?
+\par
+The two ideas complement each other, as in the first idea one remaining question is, when and how should the data be written into the associative array. With the timestep-for-loop in mind, it could be argued that the associative array should only be written in such a loop, as at that point every needed information is easily available. In another programming language such a call would look like this: $var.put(currentTimeStep,\, valueToWrite)$. In our syntax the call would look like $var = valueToWrite$, but under the hood the last saved value has to be replaced with $valueToWrite$ and an entry in the associative array for $currentTimeStep$ has to be made.
+\par
+To illustrate the two ideas a short pseudo-code example follows. In the example it is figured out, if a certain day has good or bad weather, and the weather is printed out for a few days. How the weather was figured out is not important in this example.
+\begin{lstlisting}
+// this service retrieves if a day on the date d was nice or not and returns it as String
+service wasItANiceDay(Date d){
+    //does some stuff to retrieve the information
+    return result;
+}
+...
+// calculate if the weather was good or bad for each day in the year 1970
+for(Date("01.01.1970"), Date("01.01.1971"), "day"){
+    weather = wasItANiceDay(currentTimeStep);
+}
+...
+// print if it was good or bad weather for 4 days
+for(Date("01.01.1970"), Date("05.01.1970"), "day"){
+print(weather.from(currentTimeStep));
+}
+\end{lstlisting}
+
+\par
+The output of this small program could be:
+\begin{lstlisting}
+good weather
+bad weather
+bad weather
+good weather
+\end{lstlisting}
+The next section covers the last and probably the most important missing feature of Ocelet, the binding with a ontology, in such way that semantics are introduced to the model.
+
+
+
+
 
 \section{Binding between Ontology and DSL}
 \par
