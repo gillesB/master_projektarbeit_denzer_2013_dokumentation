@@ -177,7 +177,68 @@ In the next section, we describe therefore how Ocelet could be enhanced for our 
 \par
 As already described Ocelet has two main shortcomings, a focus on landscape modelling and a lack of semantic. Besides of these it also has a few minor shortcomings. The created model has no metadata, the use of nested arrays and more complex data structures is not clear and there could be some improvements to handle different timesteps. Possible solutions to these problems will be described in this section, whereas the problem with the semantics will be discussed in the next section.
 %TODO diskutieren des Rests und ebenfalls einfügen
-%TODO binding to ontos fehlt noch
+
+\section{Binding between Ontology and DSL}
+\par
+After discussing a vision of a fully integrated toolchain as well as several ideas how a syntax for a DSL that comprises the requirements of  these vision could look like, we now want to discuss another more specific point. Although we have already explained how the bridge between the DSL and ontology can be made in a syntactical manner 
+%TODO ref einfügen
+(see section 4.1). There is still the open question how to gain semantic data types as they are required in the section \nameref{sec:vision_for_a_dsl} and how this connection can be made from a technical point of view. The following chapter tries to outline possible solutions for that issue.
+\par
+In the design phases of the project we outlined two different approaches how ontologies can be connected to the DSL. The following list tries to explain the two ideas in short. They are discussed in detail afterwards.
+\begin{description}
+	\item[Dynamic DSL Syntax with dynamic Compiler] the syntax of the DSL is created dynamically based on the entities that are used in the ontologies. This means that the ontology entities corresponds to  literals in the DSL syntax
+	\item[Static DSL Syntax with Code Generator] the syntax of the DSL is fix and it handles the semantic issues in a code generator/compiler
+\end{description}
+
+\subsection{Dynamic DSL Syntax}
+\par
+As mentioned before, the main idea here is, that the syntax of the DSL is created dynamically and depends on the entities that are described in the ontology. To give an example, if the ontology describes the concept of a temperature value, this means that the DSL’s underlying grammar would contain a literal ‘temperature’ that  represents a datatype which then can be used to write a model file. Linked with this created datatype are then the semantical descriptions of the ontology which are processed by the compiler/code generator that creates the executable code for the model. The picture \ref{fig:visualisation_dyn_dsl} below visualizes the conceptional idea of this approach.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.8\textwidth]{pics/generation_of_a_dsl/binding1.png}
+	\caption{Visualisation of the Dynamic DSL approach \label{fig:visualisation_dyn_dsl}}	
+\end{figure}
+\par
+The idea was to encapsulate this functionality in a component called compiler generator, which searches the ontologies for described entities and generates, depending on them, a grammar with a parser and a compiler that uses the terms of these entities natively. After that step, an IDE could parse the model code the user is writing, and check if it is syntactically correct and may support the user with well known functions as auto completion and so on. The generated compiler is then able to translate the model code directly into machine readable or in a general purpose language like Java, C or C++.
+\par
+This principal idea is not fundamentally new. There are already existing projects that uses ontologies to create domain specific languages in a dynamic manner. Ceh et. al introduce in \autocite{ontology:ontology2dsl}, \autocite{ontology:onto_in_dsl_dev} the Onto2DSL framework. In \autocite[192]{ontology:onto_in_dsl_dev} they discuss the process of how to translate ontology concepts into grammatical fragments of the dsl in detail and based on an example. Another example is provided in \autocite{ontology:combining_dsl_onto}. They understand ontologies metamodel of the DSL that should be developed. This kind of abstraction of meta levels is based on the Model Driven Architecture (MDA) paradigm. A  more detailed discussion of the MDA approach is out of scope of this work, but interested readers can found a good explanation in \autocite{dsl:mda}. Again the result here is that the DSL is enriched by the semantics of the ontology.
+\par
+The main problem we see in this approach is, the main component, the compiler generator, which has to dynamically generate the DSL and hence a code generator or compiler. Although we have found examples that give proof that the dynamical generation of a DSL is possible in general, we doubt it that this is possible as an on the fly solution. On the fly means in this case, that the generation of the DSL and the crucial tools to deal with it (code generator, compiler) need to be fully automatic without human rework. Such an on the fly solution would be needed since the user must be able to integrate or generate his own semantical descriptions of entities. In the given examples \autocite{ontology:ontology2dsl}; \autocite{ontology:onto_in_dsl_dev} there is always a DSL engineer involved, that needs to execute several tasks like finding irregularities in the produced grammar and so on.
+
+\subsection{Fixed DSL}
+\par
+This was the main reason why we tried to work out a conceptual completely different solution. Figure \ref{fig:visualisation_fixed_dsl} depicts the conceptual architecture of this approach.
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.8\textwidth]{pics/generation_of_a_dsl/binding2.png}
+	\caption{Visualisation of the Fixed DSL approach \label{fig:visualisation_fixed_dsl}}	
+\end{figure}
+
+\par
+In contrast to the the first solution we decided that a better approach could be to define the DSL in a more general and first and foremost stringent way. This means that the grammar of the DSL would not be dynamic and does not use the terms of semantic entities described in the ontologies natively. Instead it uses them in a generalized form which is a more conventional approach.
+\par
+Again we use the temperature example of the first approach to explain what this means. In that case temperature is not a lexical element of the DSL but since the meaning of temperature is a datatype the grammar of the DSL would contain a production rule that expresses that a data type consists of several characters.
+\par
+What is missing is the connection to the ontology. As visualised in Figure \ref{fig:visualisation_fixed_dsl} the connection to the ontology is made by the code generator. Since the code generator is a normal piece of software it is obvious that it is possible to connect to an ontology and use the features and the semantics it provides. Hence this step is more a question of how to design this connection instead of the general possibility. A good possibility to implement the connection between code generator and ontology is based on the fact that it is possible to translate the ontologies into object oriented models and vice versa. In \autocite{ontology:oom_mapping} Athanasiadis describes this transformation process in detail. Furthermore he mentions that ``Several toolkits are available for translating OWL structures into Java classes for supporting coding support for semantic applications'' \autocite[3]{ontology:oom_mapping}.
+\par
+ In our case this means, that after the definition of semantic data types, an object oriented model (OOM) can be generated, which then can be used by the code generator to generate code that is aware of the semantics defined by the ontologies. This principle would also work the inverse way. For example if the user describes in his model an entity $bank\_account$. The entity bank account has a property $account\_balance$. Furthermore the user has described in an ontology that the account balance of an entity can not be negative. The code generator could use the OOM and generate a $bank\_account$ object which then can be transferred as an individual into the ontology. The ontology itself could then use the automatic reasoning to validate the account balance and throw an error if it does not fulfill the constraint. A very similar approach is implemented in Ocelet. An Ocelet model can be mapped into an ontology and again the reasoning features of the ontology can be used to check constraints.
+\par
+To sum up, we think that this special part of the larger whole is principally feasible with the approach described above. Of course, there are a lot of open questions and problems left that need to be solved when trying to implement this in reality. For example we did not regard the point that the used ontologies needs to have a pre-defined structure to be able to access ontology semantics such as constraints in the code generator and to reason over modeled entities. For us, it is not clear how many of these problem would appear and even worse, if these implementation specific problems are all solvable. 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
