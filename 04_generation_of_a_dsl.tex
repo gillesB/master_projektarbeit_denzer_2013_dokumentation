@@ -28,18 +28,18 @@ To understand the further thoughts, it is necessary to comprehend the Similie Ba
 In detail, the diagram shows a compartment with the name $account$, the compartment has a value which represents the account balance. $Account$ has the starting value: $20$. It further shows a variable $interest\:rate$, which has a constant value. In this example it is $0.1$. There are also two flows in the picture. A flow adds or subtracts a certain value of a compartment, depending if it flows into to the compartment or out of it. The value is calculated by a formula the user entered. The two arrows are so called influences, they represent that the value of $account$ and $interest\:rate$ can be used in the formula of the $interest$ flow. The formula of $interest$ is $interest rate * account$ and that of withdrawal is $20$.
 \par
 Simile can convert this diagram into an executable program, which simulates this bank account. The principle of that program is, that every value will be recalculated for each timestep, based on the previous value. The user can enter how many timesteps will be calculated. In pseudo-code the main logic of the program could look like this:
-\begin{verbatim}
+\begin{lstlisting}
 interest_rate = 0.1
 account = 20
 timestep = 100
 for each timestep:
 	account = account + (interest rate * account)
 	account = account - (20)
-\end{verbatim}
+\end{lstlisting}
 \par
 Of course this is not everything Simile does, as it is also responsible for I/O like drawing diagrams and so on. Nevertheless it should show, what is done at the first glance.\\
 Our first DSL had the goal to be able to represent this diagram textually, so the bank account example described with the the DSL looks like the following:
-\begin{verbatim}
+\begin{lstlisting}
 Model bankAccount:
 Container account INT = 200;
 FlowIN INT interest TO account = interest_rate * account;
@@ -47,7 +47,7 @@ FlowOUT INT withdrawal FROM account = 20;
 Conjunction interest_rate -- interest;
 Conjunction  account -- interest;
 variable INT interest_rate  = 0.1 ;
-\end{verbatim}
+\end{lstlisting}
 \par
 This way of describing a model has several flaws, which mostly result  from the fact that the DSL tries to mimic functionality that works for a visual modelling but not necessarily for a text based description of a model.
 \par
@@ -77,7 +77,7 @@ Once we have described all necessary mathematical functions/mappings in our DSL 
 An imperative approach brings the advantage that we have an random access to values calculated in previous iterations and we are able to pass the results of the current iteration to the next iteration. \\
 The bank account model implemented in the DSL would look something like this:
 %TODO Syntax hervorheben
-\begin{verbatim}
+\begin{lstlisting}
 describe interest_rate depends on timestep as 1 end
 describe q depends on interest_rate as 1+interest_rate/100 end
 describe withdrawal depends on timestep as 50 end
@@ -88,7 +88,7 @@ run simulation from 1..10
     init tmp_balance = 1000 do
 	tmp_balance = balance(q(interest_rate), withdrawal, tmp_balance)
 end
-\end{verbatim}
+\end{lstlisting}
 \par
 In the code above it is recognizable that the $describe$ statement is used to define a mathematical function. In the example $interest\_rate$ depends on timestep. Described in mathematical terms:\\
 $interest\_rate(timestep) : \mathbb{N} \rightarrow  \mathbb{R}$
