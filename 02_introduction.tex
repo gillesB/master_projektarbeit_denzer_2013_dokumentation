@@ -2,16 +2,11 @@
 \par
 Modern information and communication technologies are widely used in almost every field.  It has also influenced the environmental science. Using the power of the new technologies, it is possible to create high quality models, simulations and decision support systems to help environmental scientists improve their research. Environmental modelling is the simplified view of the complex environmental realities. It represents the environmental objects, natural phenomena and physical processes in a logical way. It formalizes the principles of natural sciences to interpret the natural reality. Nowadays, modelling the complex environmental phenomena remains a great challenge. We need to consider the different dimensions and amount of data, structures of different sub components, scalability and adaptability of our models.
 \par
-These requirements have led to the development of different environmental modelling frameworks, such as CCA, ESMF, TIME, OMS, etc. These frameworks are implemented in general purpose languages, such as C, Java, Fortran, etc. They mostly provide application programming interfaces, which were specially implemented according to the needs of environmental modelling. They help the scientists to develop, adapt, reuse or integrate different models. However, they carry with them many kind of disadvantages. Software implementations of environmental models are seldom reused by broader communities or in different modelling frameworks, because of the poor semantic of the model interfaces. 
-%TODO quelle [3]
-In most cases, the models are only usable for a specific application. It is hard for other components to make use of the available models, because of the poor communication abilities of the models.
+These requirements have led to the development of different environmental modelling frameworks, such as CCA, ESMF, TIME, OMS, etc. These frameworks are implemented in general purpose languages, such as C, Java, Fortran, etc. They mostly provide application programming interfaces, which were specially implemented according to the needs of environmental modelling. They help the scientists to develop, adapt, reuse or integrate different models. However, they carry with them many kind of disadvantages. Software implementations of environmental models are seldom reused by broader communities or in different modelling frameworks, because of the poor semantic of the model interfaces. In most cases, the models are only usable for a specific application. It is hard for other components to make use of the available models, because of the poor communication abilities of the models.
 \par
 To overcome the disadvantages of the available model frameworks, domain specific language brings about a lot of benefits. They offer appropriate domain specific syntax and notations, which allows user to describe a solution at the level of the abstraction of problem domain. It allows validation at the domain level. Environmental scientists can make the best use of the domain specific language, because it follows the domain abstractions and semantics as closely as possible. The build-in functions like analysis, verification, optimization, parallelization and  transformation allow the scientists to create reliable models with high quality and productivity, which are easy to maintain and distribute on another platforms.
 \par
-The following section describes the project goals which aims to solve these problems. Furthermore, the various features of the solution will be described in the 
-%TODO ref 
-section vision for a DSL. After that the priorities of the project goals will be defined. 
-%TODO übergang passt nicht
+The following section describes the project goals which aims to solve these problems. Furthermore, the various features of the solution will be described in the section \nameref{sec:vision_for_a_dsl}. After that the priorities of the project goals will be defined.
 
 \section{Project Goals}
 \par
@@ -105,9 +100,6 @@ The following order was defined:
 \end{itemize}
 \par
 As a result of the lack of  modelling experience in general and especially the lack of experience with modeling environments it was not possible to implement a DSL that fulfills the above mentioned requirements immediately. The idea was to look at existing modelling frameworks in a first step and afterwards to implement lightweight and easy to understand models with these frameworks to gain experience in modeling on the one hand and to investigate them on strengths and weaknesses on the other hand. Based on this knowledge it should be much easier to define a DSL which integrates the required features. The next chapter gives a rough overview of existing modelling frameworks and examines its strengths and weaknesses regarding the needed features.
-
-%TODO existing model environments fehlt noch
-%TODO bei similie daran denken Bos version zu benutzen
 
 \section{Existing Environmental Modelling Frameworks}
 
