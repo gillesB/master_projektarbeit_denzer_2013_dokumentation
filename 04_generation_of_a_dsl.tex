@@ -204,7 +204,6 @@ scenario Main{
     return finalRabbitPopulation;
 }
 \end{lstlisting}
-%TODO code rahmen wegmachen
 \par
 In this case. the scenario awaits the input parameters as user input, as it is similarly done in OMS, and then forwards the parameters to its entities. Additionally, the @OUT annotation specifies the variable which will be returned as result of the model, namely the final rabbit population.
 
@@ -284,9 +283,7 @@ The next section covers the last and probably the most important missing feature
 
 \section{Binding between Ontology and DSL}
 \par
-After discussing a vision of a fully integrated toolchain as well as several ideas how a syntax for a DSL that comprises the requirements of  these vision could look like, we now want to discuss another more specific point. Although we have already explained how the bridge between the DSL and ontology can be made in a syntactical manner 
-%TODO ref einfügen
-(see section 4.1). There is still the open question how to gain semantic data types as they are required in the section \nameref{sec:vision_for_a_dsl} and how this connection can be made from a technical point of view. The following chapter tries to outline possible solutions for that issue.
+After discussing a vision of a fully integrated toolchain as well as several ideas how a syntax for a DSL that comprises the requirements of  these vision could look like, we now want to discuss another more specific point. Although we have already explained in section \ref{sec:writing_a_model} how the bridge between the DSL and ontology can be made in a syntactical manner. There is still the open question how to gain semantic data types as they are required in the section \nameref{sec:vision_for_a_dsl} and how this connection can be made from a technical point of view. The following chapter tries to outline possible solutions for that issue.
 \par
 In the design phases of the project we outlined two different approaches how ontologies can be connected to the DSL. The following list tries to explain the two ideas in short. They are discussed in detail afterwards.
 \begin{description}
