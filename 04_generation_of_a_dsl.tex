@@ -72,9 +72,7 @@ Each describe-statement defines a mapping between a new value set and a value se
 	\item Facilitated model verification: In fact that Describe Statements does not accesses the memory, since they are defined declaratively.
 	\item Usability: The modeller, often with a strong mathematical background, is able to write his models in a way that is familiar to him by using formulas instead of instructions. The fact that the code is easier to write accompanies the advantages that the code is also easier to read.
 \end{enumerate}
-Once we have described all necessary mathematical functions/mappings in our DSL we have to bring these mappings together in an executable model. To run a model  we need to describe each iteration. At this point we break with the declarative paradigm and use an imperative style to define each iterations.
-%TODO Referenz suchen.
-An imperative approach brings the advantage that we have an random access to values calculated in previous iterations and we are able to pass the results of the current iteration to the next iteration. \\
+Once we have described all necessary mathematical functions/mappings in our DSL we have to bring these mappings together in an executable model. To run a model  we need to describe each iteration. At this point we break with the declarative paradigm and use an imperative style to define each iterations. An imperative approach brings the advantage that we have an random access to values calculated in previous iterations and we are able to pass the results of the current iteration to the next iteration. \\
 The bank account model implemented in the DSL would look something like this:
 %TODO Syntax hervorheben
 \begin{lstlisting}
@@ -97,8 +95,7 @@ At the moment $interest\_rate$ maps every timestep to the value 1 but in reality
 \par
 Up to that point, we ignored the connection between the ontology and the syntax of the DSL. Nevertheless we wanted to try to build a sample model with that DSL, to get a feeling for it and perhaps get an idea how we could realise the connection to the ontology. So in the next step we tried to write a predator-prey model with the DSL.
 \par
-The predator-prey model was build after that one used in \autocite{dsl:dynamo}. The model with our syntax can be found in the [appendix].
-%TODO ist das im Anhang etc. 
+The predator-prey model was build after that one used in \autocite{dsl:dynamo}. The model with our syntax can be found in the appendix in the section \ref{sec:second_dsl_draft} \nameref{sec:second_dsl_draft}.
 The resulting code is not finished but already bloated and therefore not readable and unintuitive.
 \par
 Because of those two points, missing connection to an ontologie and intuitiveness, we decided to research an already existing DSL for environmental modelling, which we could use as template.
