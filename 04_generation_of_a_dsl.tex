@@ -63,7 +63,7 @@ An effort to find a way to integrate unit conversion with the help of ontologies
 \par
 The result of this example is that the code generation is out of scope for this project and that a new DSL definition is necessary, because a textual DSL has other requirements than a visual modeling like Simile. Though we went on to the second DSL draft.
 
-\subsection{Second DSL Draft} \label{sec:second_dsl_draft}
+\subsection{Second DSL draft} \label{sec:second_dsl_draft}
 \par
 In our second DSL draft we decided to follow the explanations in the Paper ``Declarative Modelling'' from \autocite{dsl:muetzelfeldt}. So we have chosen to define our DSL in a declarative way. That means that, in the most cases, there is no need to write instructions how to calculate some values. The goal is to describe all calculations with describe statements as a mathematical formula. These describe-statements of the calculations can be separated from the concrete model. That means the concrete model uses the formulas which was described earlier or are available in a database/ontologie.
 \par
@@ -150,7 +150,7 @@ A datafacer is a component through which entities access data. The aim of datafa
 \par
 In \autocite{dsl:ocelet-design} the creators of Ocelet show that these five concepts are enough to represent most of the situations, which occur in dynamic landscape modeling. Although it is not proven if these concepts are also sufficient to represent most environmental models, which are not directly connected to the landscape.
 
-\subsubsection{Ocelet and Ontologies}
+\subsubsection{Ocelet and ontologies}
 \par
 According to \autocite{dsl:ocelet-design} an ontology can be mapped to Ocelet code and vice versa. This is shown in diagram \ref{fig:ocelet_and_ontologies}.
 \begin{figure}[h]
@@ -291,7 +291,7 @@ In the design phases of the project we outlined two different approaches how ont
 	\item[Static DSL Syntax with Code Generator] the syntax of the DSL is fix and it handles the semantic issues in a code generator/compiler
 \end{description}
 
-\subsection{Dynamic DSL Syntax}
+\subsection{Dynamic DSL syntax}
 \par
 As mentioned before, the main idea here is, that the syntax of the DSL is created dynamically and depends on the entities that are described in the ontology. To give an example, if the ontology describes the concept of a temperature value, this means that the DSL’s underlying grammar would contain a literal ‘temperature’ that  represents a datatype which then can be used to write a model file. Linked with this created datatype are then the semantical descriptions of the ontology which are processed by the compiler/code generator that creates the executable code for the model. The picture \ref{fig:visualisation_dyn_dsl} below visualizes the conceptional idea of this approach.
 

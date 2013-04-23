@@ -19,7 +19,7 @@ We decided to start with the implementation of the model. Prior steps such as de
 \end{figure}
 
 
-\section{Writing a Model} \label{sec:writing_a_model}
+\section{Writing a model} \label{sec:writing_a_model}
 The modeler starts with the implementation/coding of the model. Since this is the most basic part of the IDE and the main interface for the user, this is the place to include the most relevant and crucial tools to support the user during the coding phase. These features are very diverse and range from very simple and basic ones like code completion, syntax highlighting, automatic warnings and action items to much more complex and specialized ones that belongs to the requirements from chapter \ref{sec:vision_for_a_dsl}. One of these very specific features are domain specific semantic datatypes and the handling of typical operations as explained earlier. In order to achieve these features, it is necessary to define important semantical aspects of entities and datatypes used in the model.
 
 
@@ -37,7 +37,7 @@ The two main reasons for this are simple. It is not clear if every user has the 
 
 Furthermore such a tool could be much better integrated in the modeling workflow. If the user defines a new entity in the DSL, the IDE could check automatically if the ontology contains semantical descriptions of this entity. If not it could trigger the user to define such semantical descriptions by starting the available tool. Another possibility to react on this situation is to show warning messages or an action tag, that reminds the user to define the semantics later on.
 
-\section{Generating Model Metadata}
+\section{Generating model metadata}
 
 Another important task the user wants to do with his new developed model, is to prepare it for a later reuse by other modelers or a later reuse by himself. This makes it necessary to add a set of rich metadata to the model that describe the model itself and simplifies the reuse of it. Furthermore if a model provides such metadata in a standardized, formal and machine readable way it also should be possible to generate a kind of modellibrary or, to think one step further, to automatically composite different models like it is done with web services and the BPMN or BPEL languages. Some ideas how to achieve this are discussed in more detail in the step sharing a model.
 
@@ -76,7 +76,7 @@ To complete this discussion, we want to call attention to another very important
 
 To put it in a nutshell, we think that this step is more a question of how to integrate the feature in a user friendly way and we do not see problems in the technical feasibility.
 
-\section{Run and Verifiy}
+\section{Run and verifiy}
 Once the model is written within the IDE it must be possible to run the model as simple as possible and get all necessaries simulation results the user requires. To run the model it is necessary to attach some datasources, because the data is not part of the model \autocite{dsl:muetzelfeldt}. This task does not rely to the concrete modelprocess. It must be possible to attach and detach datasources in a simple way.(see also \ref{sec:vision_for_a_dsl})
 
 
@@ -95,7 +95,7 @@ In \ref{sec:vision_for_a_dsl}, it is described that the models and the calculati
 Many models require a huge amount of computation power but some of these models can be written in a way which allows a parallel computation. Hence it seems to be conceivable that the IDE automatically recognizes if it is possible to distribute the calculation to multiple computers. These recognition would happen on basis of some keywords the DSL provides. Once the IDE knows that the computation is distributable the IDE can trigger the user to provide some additional information for the parallelization which can be for example credentials to a cloud provider. There is no need to use a specific Platform as a Service to deploy the model and run them in the cloud. The whole logic, which describes how the model is run on a virtual machine is known by the IDE. Hence the cloud provider must only provide a standardized infrastructure as a service. Because the vision of the DSL does not cover some distributed computation mechanisms these thoughts are not further proven.
 
 
-\section{Sharing a Model}
+\section{Sharing a model}
 
 One of the main goals of the DSL and the toolchain is the ability to facilitate the reuse of all models. The greatest degree of reuse can be reached by sharing the models with an community of other modellers.
 
