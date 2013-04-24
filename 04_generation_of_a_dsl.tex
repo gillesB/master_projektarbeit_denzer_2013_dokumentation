@@ -28,7 +28,7 @@ To understand the further thoughts, it is necessary to comprehend the Simile Ban
 In detail, the diagram shows a compartment with the name $account$, the compartment has a value which represents the account balance. $Account$ has the starting value: $20$. It further shows a variable $interest\:rate$, which has a constant value. In this example it is $0.1$. There are also two flows in the picture. A flow adds or subtracts a certain value of a compartment, depending if it flows into to the compartment or out of it. The value is calculated by a formula the user entered. The two arrows are so called influences, they represent that the value of $account$ and $interest\:rate$ can be used in the formula of the $interest$ flow. The formula of $interest$ is $interest rate * account$ and that of withdrawal is $20$.
 \par
 Simile can convert this diagram into an executable program, which simulates this bank account. The principle of that program is, that every value will be recalculated for each time step, based on the previous value. The user can enter how many time steps will be calculated. In pseudo-code the main logic of the program could look like this:
-\begin{lstlisting}
+\begin{lstlisting}[language=pseudo]
 interest_rate = 0.1
 account = 20
 timestep = 100
@@ -39,17 +39,17 @@ for each timestep:
 \par
 Of course this is not everything Simile does, as it is also responsible for I/O like drawing diagrams and so on. Nevertheless it should show, what is done at the first glance.\\
 Our first DSL had the goal to be able to represent this diagram textually. Its grammar can be found in the appendix in section \ref{sec:first_dsl_draft} \nameref{sec:first_dsl_draft}. The bank account example described with the the DSL looks like the following:
-\begin{lstlisting}
+\begin{lstlisting}[language=firstDSL]
 Model bankAccount:
 Container account INT = 200;
 FlowIN INT interest TO account = interest_rate * account;
 FlowOUT INT withdrawal FROM account = 20;
 Conjunction interest_rate -- interest;
-Conjunction  account -- interest;
-variable INT interest_rate  = 0.1 ;
+Conjunction account -- interest;
+variable INT interest_rate = 0.1 ;
 \end{lstlisting}
 \par
-This way of describing a model has several flaws, which mostly result  from the fact that the DSL tries to mimic functionality that works for a visual modelling but not necessarily for a text based description of a model.
+This way of describing a model has several flaws, which mostly result from the fact that the DSL tries to mimic functionality that works for a visual modelling but not necessarily for a text based description of a model.
 \par
 The first problem is the use of conjunctions, which represent influences in Simile. In Simile they are needed to make values visible in the components where they should be used. For example: if the arrow from $account$ to $interest$ does not exist, the value from $account$ could not be used in the formula to calculate $interest$.\\
 Therefore in our syntax the conjunctions are used to define the scope of use of variables and containers. This concept is widely known in programming as visibility rules. Defining every conjunction between variables, flows and containers with 1to1 relations is not practicable. If such visibility rules are needed a more effective way must be found.
@@ -75,15 +75,18 @@ Each describe-statement defines a mapping between a new value set and a value se
 Once we have described all necessary mathematical functions/mappings in our DSL we have to bring these mappings together in an executable model. To run a model  we need to describe each iteration. At this point we break with the declarative paradigm and use an imperative style to define each iterations. An imperative approach brings the advantage that we have an random access to values calculated in previous iterations and we are able to pass the results of the current iteration to the next iteration. \\
 The bank account model implemented in the DSL would look something like this:
 %TODO Syntax hervorheben
-\begin{lstlisting}
+\begin{lstlisting}[language=secondDSL]
 describe interest_rate depends on timestep as 1 end
-describe q depends on interest_rate as 1+interest_rate/100 end
+describe q depends on interest_rate as
+	1+interest_rate/100
+end
 describe withdrawal depends on timestep as 50 end
 describe balance depends on q, withdrawal, old_balance as
-old_balance * q - withdrawal
+	old_balance * q - withdrawal
 end
 run simulation from 1..10
-    init tmp_balance = 1000 do
+init 
+	tmp_balance = 1000 do
 	tmp_balance = balance(q(interest_rate), withdrawal, tmp_balance)
 end
 \end{lstlisting}
@@ -244,7 +247,7 @@ According to our knowledge, the two following features have till now not been de
 The idea of the first feature is, that it should be possible to access every value of every variable from every past, speak already calculated, time step. To realise this the variables have to be enhanced in such way, that they are associative arrays, where a certain time step (so to speak the date\footnote{In this section, date has not the common definition, but is something similar to the Java class Date. This means that it specifies the time and day.} of the time step) is the key and the value is the actual value of the variable. To simplify the modeler’s work, this has to be hidden from him, so that he can easily use this additional functionality. Thus if he uses the variable in a normal way, the last saved value will be used. But he can also use the variable with the suffix $.from(Date)$, in this case the variable returns the value of that date. If this feature is considered useful in general, it has to be worked out, as some questions are still open. For example: what happens if no value is available for the stated date. In that case, should it always be an error, or should some interpolation be used.
 \par
 The second idea is that a more descriptive way of writing a for-loop should be introduced. This loop could have the following structure:\\
-$for(from\_date,\, to\_date,\, granularity)$, where $from\_date$ and $to\_date$ are two dates and the granularity is a unit to describe time (second, day, year etc...). The loop would then iterate from the $from\_date$ to the $to\_date$. Thus the first time step would be the $from\_date$. The second time step would be the first date added up by the granularity. The third time step would be the second date added up by the granularity and so on until the $to\_date$ is reached or passed, at this point the loop will break. To access the date of the current time step the variable $currentTimeStep$ can be used. For the loop there are also some important  open questions: how could a nested loop be realised and what arithmetic on the $currentTimeStep$ variable should be possible? For example, if the $currentTimeStep$ is the $24.12.2006$ and the granularity is $hour$, should $currentTimeStep+1$ result in $24.12.2006 01:00 am$?
+$for(from\_date,\, to\_date,\, granularity)$, where $from\_date$ and $to\_date$ are two dates and the granularity is a unit to describe time (second, day, year etc...). The loop would then iterate from the $from\_date$ to the $to\_date$. Thus the first time step would be the $from\_date$. The second time step would be the first date added up by the granularity. The third time step would be the second date added up by the granularity and so on until the $to\_date$ is reached or passed, at this point the loop will break. To access the date of the current time step the variable $currentTimeStep$ can be used. For the loop there are also some important  open questions: how could a nested loop be realised and what arithmetic on the $currentTimeStep$ variable should be possible? For example, if the $currentTimeStep$ is the 24.12.2006 and the granularity is $hour$, should $currentTimeStep+1$ result in 24.12.2006 01:00 am?
 \par
 The two ideas complement each other, as in the first idea one remaining question is, when and how should the data be written into the associative array. With the timestep-for-loop in mind, it could be argued that the associative array should only be written in such a loop, as at that point every needed information is easily available. In another programming language such a call would look like this: $var.put(currentTimeStep,\, valueToWrite)$. In our syntax the call would look like $var = valueToWrite$, but under the hood the last saved value has to be replaced with $valueToWrite$ and an entry in the associative array for $currentTimeStep$ has to be made.
 \par
@@ -252,7 +255,7 @@ To illustrate the two ideas a short pseudo-code example follows. In the example 
 \begin{lstlisting}[language=Ocelet]
 // this service retrieves if a day on the date d was nice or not and returns it as String
 service wasItANiceDay(Date d){
-   	//does some stuff to retrieve the information
+	//does some stuff to retrieve the information
 	return result;
 }
 ...

@@ -154,16 +154,26 @@ includehead,includefoot
 } 
 
 \lstdefinelanguage{Ocelet}[]{Java}{
-        %tag=[s]<>,      % =*: also apply styles within tag, =**: cumulate styles
         morekeywords={entity, service, scenario, property},
         sensitive=false
 }
 
-\lstdefinelanguage{secondDSL}[]{Java}{
-        %tag=[s]<>,      % =*: also apply styles within tag, =**: cumulate styles
-        morekeywords={describe, depends, on, as, run, simulation, from, init},
+\lstdefinelanguage{pseudo}[]{Java}{
+        morekeywords={each},
         sensitive=false
 }
+
+\lstdefinelanguage{firstDSL}[]{Java}{
+        morekeywords={Model, Container, FlowIN, TO, FlowOUT, Conjunction, variable, from},
+        sensitive=false
+}
+
+\lstdefinelanguage{secondDSL}[]{Java}{
+        morekeywords={describe, depends, on, as, run, simulation, from, init, end},
+        sensitive=false
+}
+
+
 
 %-----Namen in Referenzen---
 \usepackage{nameref}
