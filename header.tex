@@ -153,6 +153,18 @@ includehead,includefoot
 	stringstyle=\color{redstrings}
 } 
 
+\lstdefinelanguage{Ocelet}[]{Java}{
+        %tag=[s]<>,      % =*: also apply styles within tag, =**: cumulate styles
+        morekeywords={entity, service, scenario, property},
+        sensitive=false
+}
+
+\lstdefinelanguage{secondDSL}[]{Java}{
+        %tag=[s]<>,      % =*: also apply styles within tag, =**: cumulate styles
+        morekeywords={describe, depends, on, as, run, simulation, from, init},
+        sensitive=false
+}
+
 %-----Namen in Referenzen---
 \usepackage{nameref}
 

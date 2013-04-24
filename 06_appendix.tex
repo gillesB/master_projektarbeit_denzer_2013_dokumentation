@@ -61,13 +61,13 @@ Model:
 Model_Description;
 
 Model_Description :
-'Model' name=ID ':'    Declaration+=Declaration*;
+'Model' name=ID ':' Declaration+=Declaration*;
 
 Declaration:
-Definition |    Conjunction
+Definition | Conjunction
 
 Definition:
-Container |    Variable |    Flow ;
+Container | Variable | Flow ;
 
 Container:
 'Container' Type_def name=ID '=' exp=Expression ';' ;
@@ -95,7 +95,7 @@ Multiplication returns Expression:
 PrimaryExpression (({Multi.left=current} '*' | {Div.left=current} '/') right=PrimaryExpression)*;
 
 PrimaryExpression returns Expression:
-'(' Expression ')' |    {NumberLiteral} value=NUMBER ;
+'(' Expression ')' | {NumberLiteral} value=NUMBER ;
 
 terminal NUMBER returns ecore::EBigDecimal:
 ('0'..'9')* ('.' ('0'..'9')+)?;
@@ -105,51 +105,51 @@ terminal NUMBER returns ecore::EBigDecimal:
 \par
 A predator-prey model from \autocite{dsl:dynamo} written with our second DSL draft. It is not complete, but it shows that the code is already bloated.
 \newline
-\begin{lstlisting}
+\begin{lstlisting}[language=secondDSL]
 //**************************************
 //***Begin of Declarative Part**********
 //**************************************
 describe DeerPopulation depends on DeerPopulation_old, DeerWR, DeerPreyRate , timestep as
-   DeerPopulation_old + timestep * ( ??? )
-describe A depends on  as 800000;
+	DeerPopulation_old + timestep * ( ??? )
+describe A depends on as 800000;
 describe DeerFrequency depends A , DeerPopulation as
-   DeerPopulation / A  
+	DeerPopulation / A  
 
 describe fodderAmount depends on fodderAmount_old , timestep,newFodderRate , fodderEatenRate as
-   ???
+	???
 
 describe fodderCapacity depends on timestep as 350000
 
 describe predatorPopulation depends on predatorPopulation_old , timestep , predatorGrowingRate, predatorDecreasingRate as
-   ???
+	???
 
 describe predatorDecreasingRate depends on timestep as 0,2
 
-describe deerGrowingF depends on fodderPerDeer as  DISKRETE_FUNKTION[fodderPerDeer]
+describe deerGrowingF depends on fodderPerDeer as DISKRETE_FUNKTION[fodderPerDeer]
 
-describe fodderPerDeer depends on  fodderAmount, DeerPopulation, timestep as
-   fodderAmount / DeerPopulation
+describe fodderPerDeer depends on fodderAmount, DeerPopulation, timestep as
+	fodderAmount / DeerPopulation
 
 describe deerGrowingRate depends on deerGrowingF , DeerPopulation , timestep as
-   deerGrowingF * DeerPopulation ;       
+	deerGrowingF * DeerPopulation
 
 describe DeerPreyRate depends on
-  ???
+	???
 
 //**************************************
 //***Begin of Imperative Part***********
 //**************************************
 run simulation from 1907 ... 1950
 init
-   DeerPopulation = 4000
-   fodderAmount = 350000
-   predatorPopulation = 8000  
+	DeerPopulation = 4000
+	fodderAmount = 350000
+	predatorPopulation = 8000
 
-   fodderPerDeer_new = fodderPerDeer ( fodderAmount , DeerPopulation )
-   DeerPreyRate_new = ???
-   deerGrowingF_new = deerGrowingF (fodderPerDeer )
-   deerGrowingRate_new = deerGrowingRate( deerGrowingF_new, DeerPopulation)
-   DeerPopulation = DeerPopulation(DeerPopulation , deerGrowingRate_new , DeerPreyRate)
+	fodderPerDeer_new = fodderPerDeer ( fodderAmount , DeerPopulation )
+	DeerPreyRate_new = ???
+	deerGrowingF_new = deerGrowingF (fodderPerDeer )
+	deerGrowingRate_new = deerGrowingRate( deerGrowingF_new, DeerPopulation)
+	DeerPopulation = DeerPopulation(DeerPopulation , deerGrowingRate_new , DeerPreyRate)
 \end{lstlisting}
 
 

@@ -178,22 +178,22 @@ As already described Ocelet has two main shortcomings, a focus on landscape mode
 As described in the previous chapter, annotations can be used to add metadata to a model. A list of every possible annotation can not be provided here, but has to be elaborated in a future work. To show how the use of annotations could look like, two possible annotations, @IN and @OUT, are introduced here. They specify if a variable is an input or an output parameter of a component. They can be used to define the interface of a component.
 \par
 Thus a rabbit entity from a predator-prey model could look like the following:
-\begin{lstlisting}
+\begin{lstlisting}[language=Ocelet]
 entity rabbits{
     @IN property population
     @IN property reproduction = 0.01   
 
-    Service produce()
+    service produce()
 }
 \end{lstlisting}
 The creation of a new rabbit entity could look like this:
-\begin{lstlisting}
+\begin{lstlisting}[language=Ocelet]
 scenario Main{
     r = rabbit(50);
 }
 \end{lstlisting}
 But the input parameter could also be nested, in such way the input parameter is forwarded over multiple components:
-\begin{lstlisting}
+\begin{lstlisting}[language=Ocelet]
 scenario Main{
     @IN parameter rabbitPopulation;
     @OUT parameter finalRabbitPopulation;
@@ -216,7 +216,7 @@ In the following example it is shown how satellite pictures and their metadata c
 In general a satellite picture is not a single big picture, but it is assembled from some single smaller pictures. To form the actual pictures these parts can be arranged in a grid. How this could be done with our syntax is shown below. 
 \par
 An entity $SatellitePicture$ and $SatellitePicturePart$ is given:
-\begin{lstlisting}
+\begin{lstlisting}[language=Ocelet]
 entity SatellitePicture{
     property Satellite s;
     property SatellitePicturePart[][] parts;
@@ -249,21 +249,21 @@ $for(from\_date,\, to\_date,\, granularity)$, where $from\_date$ and $to\_date$ 
 The two ideas complement each other, as in the first idea one remaining question is, when and how should the data be written into the associative array. With the timestep-for-loop in mind, it could be argued that the associative array should only be written in such a loop, as at that point every needed information is easily available. In another programming language such a call would look like this: $var.put(currentTimeStep,\, valueToWrite)$. In our syntax the call would look like $var = valueToWrite$, but under the hood the last saved value has to be replaced with $valueToWrite$ and an entry in the associative array for $currentTimeStep$ has to be made.
 \par
 To illustrate the two ideas a short pseudo-code example follows. In the example it is figured out, if a certain day has good or bad weather, and the weather is printed out for a few days. How the weather was figured out is not important in this example.
-\begin{lstlisting}
+\begin{lstlisting}[language=Ocelet]
 // this service retrieves if a day on the date d was nice or not and returns it as String
 service wasItANiceDay(Date d){
-    //does some stuff to retrieve the information
-    return result;
+   	//does some stuff to retrieve the information
+	return result;
 }
 ...
 // calculate if the weather was good or bad for each day in the year 1970
 for(Date("01.01.1970"), Date("01.01.1971"), "day"){
-    weather = wasItANiceDay(currentTimeStep);
+	weather = wasItANiceDay(currentTimeStep);
 }
 ...
 // print if it was good or bad weather for 4 days
 for(Date("01.01.1970"), Date("05.01.1970"), "day"){
-print(weather.from(currentTimeStep));
+	print(weather.from(currentTimeStep));
 }
 \end{lstlisting}
 
