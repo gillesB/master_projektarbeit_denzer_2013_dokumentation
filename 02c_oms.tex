@@ -47,25 +47,28 @@ The OMS framework provides simulations features to test and analyze the models, 
 \end{itemize}
 \par
 The following is a part of a simple simulation file to run the model “bank account”:
-\begin{verbatim}
+\begin{lstlisting}
 //1. We have to import the necessary library.
 import static oms3.SimBuilder.instance as OMS3
+
 OMS3.sim (name:"Konto"){
-//2. define the location of the components
+
+	//2. define the location of the components
 	def work = "D:\\workspace_new\\OMS Model"
 	resource "D:\\workspace_new\\OMS Model\\dist\\*.jar"
 	model(classname:"Bankkonto.Bankkonto"){
-//3. specify the input data for the components
+
+		//3. specify the input data for the components
 		parameter {
-		withdrawal 50
-		account 	3000
-		interest_rate 0.15
-year 	10
-		output "$work\\output.csv"
+			withdrawal 50
+			account 	3000
+			interest_rate 0.15
+			year 	10
+			output "$work\\output.csv"
 		}
 	}
 }
-\end{verbatim}
+\end{lstlisting}
 \par
 The following figure shows the result after running the simulation:
 \begin{figure}[h]
