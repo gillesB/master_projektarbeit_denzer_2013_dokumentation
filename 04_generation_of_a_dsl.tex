@@ -1,4 +1,4 @@
-\chapter{Generation of a DSL Syntax} \label{chap:generation_dsl}
+\chapter{Generation of a DSL syntax} \label{chap:generation_dsl}
 \par
 The Syntax of the DSL is the most important part of the project, as it is the place in the toolchain, where the modeller actually does his work: writing a model. Therefore the main requirement for the DSL is that the modeller, must be able to express all the functionalities needed for his models. On the other side, the syntax of the DSL must be as straightforward and intuitive as possible, so that the modeller can concentrate on his scientific activity and must only invest a small amount of time to learn and handle the DSL \autocite{dsl:mernik}.
 \par
@@ -9,7 +9,7 @@ With this approach, two DSL drafts were created. After the second draft, we real
 \par
 In this section the two created drafts are described, then our chosen candidate DSL, Ocelet, is introduced and finally necessary extensions to Ocelet are specified.
 
-\section{First DSL Draft}
+\section{First DSL draft}
 \par
 The first draft is a DSL that has the necessary functions to describe the bank-account model from the Similie \autocite{dsl:similie_tutorial_bank} tutorial. The attempt was to create a DSL with Xtext, a framework for DSLs, and to bind the DSL with an ontology.  
 \par
@@ -98,7 +98,7 @@ Up to that point, we ignored the connection between the ontology and the syntax 
 The predator-prey model was build after that one used in \autocite{dsl:dynamo}. The model with our syntax can be found in the appendix in the section \ref{sec:second_dsl_draft} \nameref{sec:second_dsl_draft}.
 The resulting code is not finished but already bloated and therefore not readable and unintuitive.
 \par
-Because of those two points, missing connection to an ontologie and intuitiveness, we decided to research an already existing DSL for environmental modelling, which we could use as template.
+Because of those two points, missing connection to an ontology and intuitiveness, we decided to research an already existing DSL for environmental modelling, which we could use as template.
 
 \subsection{Ocelet}
 \par
@@ -281,7 +281,7 @@ The next section covers the last and probably the most important missing feature
 
 
 
-\section{Binding between Ontology and DSL}
+\section{Binding between ontology and DSL}
 \par
 After discussing a vision of a fully integrated toolchain as well as several ideas how a syntax for a DSL that comprises the requirements of  these vision could look like, we now want to discuss another more specific point. Although we have already explained in section \ref{sec:writing_a_model} how the bridge between the DSL and ontology can be made in a syntactical manner. There is still the open question how to gain semantic data types as they are required in the section \nameref{sec:vision_for_a_dsl} and how this connection can be made from a technical point of view. The following chapter tries to outline possible solutions for that issue.
 \par
