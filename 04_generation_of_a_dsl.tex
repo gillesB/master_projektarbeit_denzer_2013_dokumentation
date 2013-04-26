@@ -5,7 +5,7 @@ The Syntax of the DSL is the most important part of the project, as it is the pl
 It is difficult to develop a DSL, with such a balance, in one step. Therefore the approach was to develop an easier DSL in the first place. Afterwards this DSL was used to develop simple existing models. Through that development the created DSL syntax could be validated. With this newly gathered modeling experience, it was possible to evaluate the syntax and the missing features of the DSL and to improve it in the next iteration of the same procedure.
 The Simile tutorials were used as a starting point, for the first DSL draft. Simile and its tutorials were chosen over the other analysed frameworks because they had a clear structure and were well explained.
 \par
-With this approach, two DSL drafts were created. After the second draft, we realised that, it would not be possible to create our own DSL. Thus we tried to find another modelling DSL which already covers some needed features and provides us with a clear and structured syntax, which we finally could extend.
+With this approach, two DSL drafts were created. After the second draft, we realised that, it would not be possible to create our own DSL. Thus we tried to find another modeling DSL which already covers some needed features and provides us with a clear and structured syntax, which we finally could extend.
 \par
 In this section the two created drafts are described, then our chosen candidate DSL, Ocelet, is introduced and finally necessary extensions to Ocelet are specified.
 
@@ -49,7 +49,7 @@ Conjunction account -- interest;
 variable INT interest_rate = 0.1 ;
 \end{lstlisting}
 \par
-This way of describing a model has several flaws, which mostly result from the fact that the DSL tries to mimic functionality that works for a visual modelling but not necessarily for a text based description of a model.
+This way of describing a model has several flaws, which mostly result from the fact that the DSL tries to mimic functionality that works for a visual modeling but not necessarily for a text based description of a model.
 \par
 The first problem is the use of conjunctions, which represent influences in Simile. In Simile they are needed to make values visible in the components where they should be used. For example: if the arrow from $account$ to $interest$ does not exist, the value from $account$ could not be used in the formula to calculate $interest$.\\
 Therefore in our syntax the conjunctions are used to define the scope of use of variables and containers. This concept is widely known in programming as visibility rules. Defining every conjunction between variables, flows and containers with 1to1 relations is not practicable. If such visibility rules are needed a more effective way must be found.
@@ -101,16 +101,16 @@ Up to that point, we ignored the connection between the ontology and the syntax 
 The predator-prey model was build after that one used in \autocite{dsl:dynamo}. The model with our syntax can be found in the appendix in the section \ref{sec:second_dsl_draft} \nameref{sec:second_dsl_draft}.
 The resulting code is not finished but already bloated and therefore not readable and unintuitive.
 \par
-Because of those two points, missing connection to an ontology and intuitiveness, we decided to research an already existing DSL for environmental modelling, which we could use as template.
+Because of those two points, missing connection to an ontology and intuitiveness, we decided to research an already existing DSL for environmental modeling, which we could use as template.
 
 \subsection{Ocelet}
 \par
-The result of that search was Ocelet. Ocelet is a modeling language and a development environment for landscape models. It was developed in the scope of the STAMP project, which stands for Modelling dynamic landscapes with Spatial, Temporal And Multi-scale Primitives. \autocite{dsl:ocelet-wiki} The project is supported by the ANR, the Agence Nationale de la Recherche. It started in 2007 and had a duration of 42 months, after which it was abandoned and is not in further development. We could not find out, if a follow-up project exists.
+The result of that search was Ocelet. Ocelet is a modeling language and a development environment for landscape models. It was developed in the scope of the STAMP project, which stands for \emph{Modelling dynamic landscapes with Spatial, Temporal And Multi-scale Primitives}. \autocite{dsl:ocelet-wiki} The project is supported by the ANR, the Agence Nationale de la Recherche. It started in 2007 and had a duration of 42 months, after which it was abandoned and is not in further development. We could not find out, if a follow-up project exists.
 \par
 The following information about Ocelet were found in \autocite{dsl:ocelet-design}. The goal of Ocelet is to allow the domain experts to concentrate on the conceptual model. The task of the transformation of the model to an executable implementation is left to an dedicated software tool.  \\
 Though the design of Ocelet has the following two main points.
 \begin{enumerate}
-	\item It provides concepts adapted for the modelling processes, especially in the landscape sector.
+	\item It provides concepts adapted for the modeling processes, especially in the landscape sector.
 	\item It must have underlying operational semantics that are required to automatically generate code and run simulations, which correspond to the models written in the Ocelet programming language. This means that Java code is generated from Ocelet code, thus a code generator are needed.
 \end{enumerate}
 To make the modeler’s work easier, Ocelet provides a model building environment, which enables syntax analysing and type verification, which is standard in most other common programming languages. \\
@@ -122,7 +122,7 @@ A schematic overview of Ocelet can be seen in the diagram \ref{fig:ocelet_modell
 	\caption{A schematic overview of Ocelet \label{fig:ocelet_modelling_and_simulation_framework}}	
 \end{figure}
 
-\subsubsection{Modelling paradigm}
+\subsubsection{Modeling paradigm}
 \par
 As already described Ocelet is an own DSL, where the code is translated to Java, which then can be executed on the computer.\\
 Ocelet was build around of 5 main concepts:
@@ -168,14 +168,14 @@ Another advantage is that parts of one model can be easily reused in other model
 
 \subsubsection{Missing features of Ocelet}
 \par
-For our use, Ocelet has two main shortcomings. In the first place, Ocelet does not follow an universal approach as it only focuses on landscape modelling. Secondly, Ocelet models can be reasoned with ontologies, but this feature is not as extensive as we need it.
+For our use, Ocelet has two main shortcomings. In the first place, Ocelet does not follow an universal approach as it only focuses on landscape modeling. Secondly, Ocelet models can be reasoned with ontologies, but this feature is not as extensive as we need it.
 
 \par
 In the next section, we describe therefore how Ocelet could be enhanced for our needs.
 
 \section{Needed enhancements of Ocelet}
 \par
-As already described Ocelet has two main shortcomings, a focus on landscape modelling and a lack of semantic. Besides of these it also has a few minor shortcomings. The created model has no metadata, the use of nested arrays and more complex data structures is not clear and there could be some improvements to handle different time steps. Possible solutions to these problems will be described in this section, whereas the problem with the semantics will be discussed in the next section.
+As already described Ocelet has two main shortcomings, a focus on landscape modeling and a lack of semantic. Besides of these it also has a few minor shortcomings. The created model has no metadata, the use of nested arrays and more complex data structures is not clear and there could be some improvements to handle different time steps. Possible solutions to these problems will be described in this section, whereas the problem with the semantics will be discussed in the next section.
 \subsection{Metadata}
 \par
 As described in the previous chapter, annotations can be used to add metadata to a model. A list of every possible annotation can not be provided here, but has to be elaborated in a future work. To show how the use of annotations could look like, two possible annotations, @IN and @OUT, are introduced here. They specify if a variable is an input or an output parameter of a component. They can be used to define the interface of a component.
@@ -243,7 +243,7 @@ To give the modeler the possibility to create such data structures, a first impl
 Up to this point the arrays are only allocated but are still empty and do not contain any data. They could be either initialized by the modeller, or filled via Ocelet’s datafacers or via SQL statements. For the later, it has to be proven if it is advantageous to build this functionality into the language, or if it is better to implement the SQL queries with the help of a datafacer.
 \subsection{Access past time steps}
 \par
-According to our knowledge, the two following features have till now not been described in a environmental modelling context. However, we think that it might be a helpful functionality.
+According to our knowledge, the two following features have till now not been described in a environmental modeling context. However, we think that it might be a helpful functionality.
 The idea of the first feature is, that it should be possible to access every value of every variable from every past, speak already calculated, time step. To realise this the variables have to be enhanced in such way, that they are associative arrays, where a certain time step (so to speak the date\footnote{In this section, date has not the common definition, but is something similar to the Java class Date. This means that it specifies the time and day.} of the time step) is the key and the value is the actual value of the variable. To simplify the modeler’s work, this has to be hidden from him, so that he can easily use this additional functionality. Thus if he uses the variable in a normal way, the last saved value will be used. But he can also use the variable with the suffix $.from(Date)$, in this case the variable returns the value of that date. If this feature is considered useful in general, it has to be worked out, as some questions are still open. For example: what happens if no value is available for the stated date. In that case, should it always be an error, or should some interpolation be used.
 \par
 The second idea is that a more descriptive way of writing a for-loop should be introduced. This loop could have the following structure:\\
