@@ -70,21 +70,21 @@ OMS3.sim (name:"Konto"){
 }
 \end{lstlisting}
 \par
-The following figure shows the result after running the simulation:
-\begin{figure}[h]
+The figure \vref{fig:Result_Bank_Account} shows the result after running the simulation.
+\begin{figure}[htbp]
 	\centering
-	\includegraphics[width=0.8\textwidth]{pics/oms/Figure9.png}
+	\includegraphics[width=0.75\textwidth]{pics/oms/Figure9.png}
 	\caption{Result after running the model “bank account”
  \label{fig:Result_Bank_Account}}	
 \end{figure}
-\par
-OMS also provides diagram visualization features for the simulation results for better understanding and evaluation. The following figure shows the diagram of the status changes of the bank account of different years.
-\begin{figure}[h]
+OMS also provides diagram visualization features for the simulation results for better understanding and evaluation. This can be seen on figure \ref{fig:Visualization_Bank_Account}, it shows the diagram of the status changes of the bank account of different years.
+\begin{figure}[htbp]
 	\centering
-	\includegraphics[width=0.8\textwidth]{pics/oms/Figure10.png}
+	\includegraphics[width=0.75\textwidth]{pics/oms/Figure10.png}
 	\caption{Visualization of the status of a bank account
  \label{fig:Visualization_Bank_Account}}	
 \end{figure}
+\par
 The new version of the OMS framework 3.1 supports multiple threading. Each OMS3 component will be executed in a separate thread, which is managed by the framework runtime. Thread communication happens when data flow from the “@Out” field of one component to the “@In” field of another component is carried out. The component will wait until all its necessary inputs are present and satisfied, then it starts to execute. Since modern computers are equipped with multi-core processors, the multi-threading feature will greatly make use of the power of the processors to improve the performance of the framework.
 \par
 \subsubsection{Advantages of OMS}

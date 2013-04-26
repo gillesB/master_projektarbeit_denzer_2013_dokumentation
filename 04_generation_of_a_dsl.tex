@@ -155,7 +155,7 @@ In \autocite{dsl:ocelet-design} the creators of Ocelet show that these five conc
 
 \subsubsection{Ocelet and ontologies}
 \par
-According to \autocite{dsl:ocelet-design} an ontology can be mapped to Ocelet code and vice versa. This is shown in diagram \ref{fig:ocelet_and_ontologies}.
+According to \autocite{dsl:ocelet-design} an ontology can be mapped to Ocelet code and vice versa. This is shown in diagram \vref{fig:ocelet_and_ontologies}.
 \begin{figure}[h]
 	\centering
 	\includegraphics[width=0.7\textwidth]{pics/ocelet/ocelet_and_ontologies.png}
@@ -298,7 +298,7 @@ In the design phases of the project we outlined two different approaches how ont
 \par
 As mentioned before, the main idea here is, that the syntax of the DSL is created dynamically and depends on the entities that are described in the ontology. To give an example, if the ontology describes the concept of a temperature value, this means that the DSL’s underlying grammar would contain a literal ‘temperature’ that  represents a datatype which then can be used to write a model file. Linked with this created datatype are then the semantical descriptions of the ontology which are processed by the compiler/code generator that creates the executable code for the model. The picture \ref{fig:visualisation_dyn_dsl} below visualizes the conceptional idea of this approach.
 
-\begin{figure}[h]
+\begin{figure}[htbp]
 	\centering
 	\includegraphics[width=0.8\textwidth]{pics/generation_of_a_dsl/binding1.png}
 	\caption{Visualisation of the Dynamic DSL approach \label{fig:visualisation_dyn_dsl}}	
